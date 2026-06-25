@@ -1,0 +1,9 @@
+services:
+
+  redis:
+    image: redis:8
+
+    container_name: agentrank_redis
+
+    ports:
+      - "6379:6379"
