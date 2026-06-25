@@ -1,7 +1,6 @@
 from app.db.database import engine
-from app.models.agent import Agent
-from app.db.database import Base
+from app.agents.schema_sync import sync_agent_registry_schema
 
-Base.metadata.create_all(bind=engine)
+sync_agent_registry_schema(engine)
 
 print("Database initialized")
