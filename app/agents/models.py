@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, Float, Integer, JSON, String
+from sqlalchemy import Boolean, Column, DateTime, Float, Integer, JSON, String
 
 from app.db.database import Base
 
@@ -18,4 +18,8 @@ class Agent(Base):
     capabilities = Column(JSON, default=list)
     is_active = Column(Boolean, default=True)
     health_status = Column(String, default="unknown")
+    last_checked_at = Column(DateTime(timezone=True))
+    last_response_time_ms = Column(Float)
+    last_error = Column(String)
+    consecutive_failures = Column(Integer, default=0)
     trust_score = Column(Float, default=0.0)

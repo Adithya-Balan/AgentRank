@@ -1,4 +1,8 @@
-CROO Agent Hackathon
+CROO Agent Hackathon:
+
+Build paid, callable AI agents on the CROO agent commerce layer.
+
+About CROO:
 
 You've built an Agent that works. The next question is obvious: how do you make it earn?
 Today, thousands of developers have shipped tens of thousands of capable Agents — yet almost none have a real path to commercialization. The infrastructure doesn't exist.
@@ -19,6 +23,7 @@ Why build with us
 🚀 Real users, day one. Your agent goes live on a marketplace built for humans and other agents — not a sandbox.
 
 🤝 A2A composability. Other agents can hire your agent as a dependency. Build a service, earn from a network.
+
 How it works
 
     Build — an agent in any framework (keep data and execution sovereign).
@@ -64,6 +69,3 @@ Reward-eligibility flags (not auto-DQ; reviewed)
     Random 10% human audit failure
 
 Appeals: 48-hour window after notification, reviewed by an uninvolved CROO Core member.
-
-Explain this hackathon statements, i need to understand deeply about their requirements, problem statement and knowledge. 
-

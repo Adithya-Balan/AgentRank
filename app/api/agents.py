@@ -3,7 +3,12 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.agents import service
-from app.agents.schemas import AgentCreate, AgentRead, AgentUpdate
+from app.agents.schemas import (
+    AgentCreate,
+    AgentHealthCheckRead,
+    AgentRead,
+    AgentUpdate,
+)
 from app.db.database import get_db
 
 router = APIRouter()
@@ -69,3 +74,32 @@ def update_agent(
             status_code=status.HTTP_409_CONFLICT,
             detail="Agent endpoint or wallet address is already registered.",
         ) from exc
+
+
+@router.post("/{agent_id}/health-check", response_model=AgentHealthCheckRead)
+def run_agent_health_check(
+    agent_id: int,
+    timeout_seconds: float = Query(default=5.0, ge=0.1, le=30.0),
+    db: Session = Depends(get_db),
+):
+    agent = service.get_agent(db, agent_id)
+    if agent is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Agent not found.",
+        )
+
+    result = service.run_health_check(
+        db,
+        agent,
+        timeout_seconds=timeout_seconds,
+    )
+    return {
+        "agent_id": agent.id,
+        "endpoint": agent.endpoint,
+        "status": result.status,
+        "status_code": result.status_code,
+        "response_time_ms": result.response_time_ms,
+        "error": result.error,
+        "checked_at": result.checked_at,
+    }

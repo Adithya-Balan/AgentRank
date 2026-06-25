@@ -11,6 +11,7 @@ DEFAULT_VALUES = {
     "capabilities": [],
     "is_active": True,
     "health_status": "unknown",
+    "consecutive_failures": 0,
     "trust_score": 0.0,
 }
 

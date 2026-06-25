@@ -2,6 +2,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.agents.health import HealthCheckResult, check_endpoint
 from app.agents.models import Agent
 from app.agents.schemas import AgentCreate, AgentUpdate
 
@@ -55,3 +56,25 @@ def update_agent(db: Session, agent: Agent, payload: AgentUpdate) -> Agent:
 
     db.refresh(agent)
     return agent
+
+
+def run_health_check(
+    db: Session,
+    agent: Agent,
+    *,
+    timeout_seconds: float = 5.0,
+) -> HealthCheckResult:
+    result = check_endpoint(agent.endpoint, timeout_seconds=timeout_seconds)
+    agent.health_status = result.status
+    agent.last_checked_at = result.checked_at
+    agent.last_response_time_ms = result.response_time_ms
+    agent.last_error = result.error
+
+    if result.status == "healthy":
+        agent.consecutive_failures = 0
+    else:
+        agent.consecutive_failures = (agent.consecutive_failures or 0) + 1
+
+    db.commit()
+    db.refresh(agent)
+    return result

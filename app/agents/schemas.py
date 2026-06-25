@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, Field
 
 
@@ -29,6 +31,10 @@ class AgentUpdate(BaseModel):
     capabilities: list[str] | None = None
     is_active: bool | None = None
     health_status: str | None = Field(default=None, max_length=40)
+    last_checked_at: datetime | None = None
+    last_response_time_ms: float | None = Field(default=None, ge=0)
+    last_error: str | None = Field(default=None, max_length=500)
+    consecutive_failures: int | None = Field(default=None, ge=0)
     trust_score: float | None = Field(default=None, ge=0, le=100)
 
 
@@ -36,6 +42,22 @@ class AgentRead(AgentBase):
     id: int
     is_active: bool
     health_status: str
+    last_checked_at: datetime | None
+    last_response_time_ms: float | None
+    last_error: str | None
+    consecutive_failures: int
     trust_score: float
+
+    model_config = {"from_attributes": True}
+
+
+class AgentHealthCheckRead(BaseModel):
+    agent_id: int
+    endpoint: str
+    status: str
+    status_code: int | None
+    response_time_ms: float | None
+    error: str | None
+    checked_at: datetime
 
     model_config = {"from_attributes": True}
