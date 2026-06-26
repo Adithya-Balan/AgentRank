@@ -24,3 +24,12 @@ uvicorn app.main:app --reload
 ```
 
 By default, local development uses `sqlite:///./agentrank.db`. Set `DATABASE_URL` to point at another SQLAlchemy-supported database.
+
+## Step 4: Validation Pipeline
+
+AgentRank incorporates a validation pipeline to evaluate benchmark outputs in depth. Rather than blindly trusting the score of a benchmark, AgentRank breaks it down across multiple dimensions like factual accuracy, citation reliability, consistency, and economic efficiency.
+
+### Endpoints
+
+- `POST /benchmarks/{benchmark_id}/validate` creates a new validation report for a specific benchmark result.
+- `GET /benchmarks/{benchmark_id}/validate` fetches the validation report for a specific benchmark result.
