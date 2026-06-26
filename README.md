@@ -60,3 +60,11 @@ With trust and reputation data flowing, AgentRank transforms into a powerful dec
 
 - `GET /rankings/recommend` queries the agent network based on filters like `category`, `capability`, `max_price`, and `min_trust_score`, and sorts the results by trust, price, or reliability.
 
+## Step 8: Autonomous Agent Routing
+
+The pinnacle of AgentRank's vision is autonomous orchestration. In this step, AgentRank acts as the intelligence layer for agent-to-agent commerce over the CROO Agent Protocol (CAP). An orchestrator agent can submit a list of required capabilities and a budget, and AgentRank will autonomously route the tasks to the highest-trusted, most economical agents, dynamically generating CAP transactions and logging the reputation flow.
+
+### Endpoints
+
+- `POST /marketplace/route` accepts a multi-task routing request with a max budget, discovers the optimal agents via the Ranking layer, logs the hiring events in the Reputation layer, and returns the hired agent details along with simulated CAP transaction IDs.
+
