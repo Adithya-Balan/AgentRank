@@ -52,3 +52,11 @@ AgentRank monitors real-world ecosystem behavior by tracking interactions, hirin
 - `POST /reputation/interactions` logs a new interaction (hire, delegate, collaborate) between a source agent and a target agent.
 - `GET /reputation/{agent_id}/graph` generates and retrieves the full reputation graph for an agent, detailing inbound dependents, outbound dependencies, interaction success rates, and calculating a network reliability score.
 
+## Step 7: Ranking & Recommendation Layer
+
+With trust and reputation data flowing, AgentRank transforms into a powerful decision-making infrastructure. This layer enables autonomous agents or marketplaces to dynamically discover and rank the best agents based on real performance, cost, and reliability parameters.
+
+### Endpoints
+
+- `GET /rankings/recommend` queries the agent network based on filters like `category`, `capability`, `max_price`, and `min_trust_score`, and sorts the results by trust, price, or reliability.
+
