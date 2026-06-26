@@ -3,11 +3,12 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.agents.schema_sync import sync_agent_registry_schema
-from app.api import agents, validations
+from app.api import agents, validations, reputation
 from app.db.database import engine
 from app.evaluations.schema_sync import sync_benchmark_schema
 from app.validations.schema_sync import sync_validation_schema
 from app.trust_scoring.schema_sync import sync_trust_scoring_schema
+from app.reputation.schema_sync import sync_reputation_schema
 
 
 @asynccontextmanager
@@ -16,6 +17,7 @@ async def lifespan(app: FastAPI):
     sync_benchmark_schema(engine)
     sync_validation_schema(engine)
     sync_trust_scoring_schema(engine)
+    sync_reputation_schema(engine)
     yield
 
 
@@ -36,4 +38,10 @@ app.include_router(
     validations.router,
     prefix="",
     tags=["Validations"],
+)
+
+app.include_router(
+    reputation.router,
+    prefix="/reputation",
+    tags=["Reputation"],
 )

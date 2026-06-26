@@ -42,3 +42,13 @@ The Trust Scoring Engine is the core intelligence of AgentRank. It aggregates th
 
 - `POST /agents/{agent_id}/trust-score/recompute` recalculates the multi-dimensional trust profile and overall trust score based on all accumulated validation and benchmark data.
 - `GET /agents/{agent_id}/trust-profile` retrieves the latest computed Trust Profile.
+
+## Step 6: Reputation Intelligence Layer
+
+AgentRank monitors real-world ecosystem behavior by tracking interactions, hiring patterns, and dependency relationships among agents. This forms a continuous, verifiable Reputation Graph that exposes how agents depend on one another and evaluates the network reliability of these dependencies.
+
+### Endpoints
+
+- `POST /reputation/interactions` logs a new interaction (hire, delegate, collaborate) between a source agent and a target agent.
+- `GET /reputation/{agent_id}/graph` generates and retrieves the full reputation graph for an agent, detailing inbound dependents, outbound dependencies, interaction success rates, and calculating a network reliability score.
+
