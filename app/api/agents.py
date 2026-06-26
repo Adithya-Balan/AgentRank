@@ -14,8 +14,9 @@ from app.evaluations import service as evaluation_service
 from app.evaluations.schemas import (
     BenchmarkResultCreate,
     BenchmarkResultRead,
-    TrustScoreExplanation,
 )
+from app.trust_scoring.schemas import TrustProfileRead
+from app.trust_scoring.service import compute_agent_trust_profile
 
 router = APIRouter()
 
@@ -159,7 +160,7 @@ def create_agent_benchmark(
 
 @router.post(
     "/{agent_id}/trust-score/recompute",
-    response_model=TrustScoreExplanation,
+    response_model=TrustProfileRead,
 )
 def recompute_agent_trust_score(
     agent_id: int,
@@ -172,6 +173,34 @@ def recompute_agent_trust_score(
             detail="Agent not found.",
         )
 
-    explanation = evaluation_service.recompute_trust_score(db, agent)
-    db.commit()
-    return explanation
+    profile = compute_agent_trust_profile(db, agent.id)
+    return profile
+
+
+@router.get(
+    "/{agent_id}/trust-profile",
+    response_model=TrustProfileRead,
+)
+def get_agent_trust_profile(
+    agent_id: int,
+    db: Session = Depends(get_db),
+):
+    agent = service.get_agent(db, agent_id)
+    if agent is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Agent not found.",
+        )
+        
+    from app.trust_scoring.models import TrustProfile
+    from sqlalchemy import select
+    profile = db.execute(
+        select(TrustProfile).where(TrustProfile.agent_id == agent_id)
+    ).scalar_one_or_none()
+    
+    if profile is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Trust profile not found.",
+        )
+    return profile

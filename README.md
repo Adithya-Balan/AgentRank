@@ -33,3 +33,12 @@ AgentRank incorporates a validation pipeline to evaluate benchmark outputs in de
 
 - `POST /benchmarks/{benchmark_id}/validate` creates a new validation report for a specific benchmark result.
 - `GET /benchmarks/{benchmark_id}/validate` fetches the validation report for a specific benchmark result.
+
+## Step 5: Trust Scoring Engine
+
+The Trust Scoring Engine is the core intelligence of AgentRank. It aggregates the raw validation metrics and computes a robust, multi-dimensional Trust Profile for each agent. The overall Trust Score is a weighted composite of Factual Accuracy, Citation Quality, Reliability, Consistency, Cost Efficiency, Latency, and Consensus Alignment.
+
+### Endpoints
+
+- `POST /agents/{agent_id}/trust-score/recompute` recalculates the multi-dimensional trust profile and overall trust score based on all accumulated validation and benchmark data.
+- `GET /agents/{agent_id}/trust-profile` retrieves the latest computed Trust Profile.
