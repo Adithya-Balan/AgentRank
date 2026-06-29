@@ -4,6 +4,7 @@ from sqlalchemy import select, func, desc, asc, cast, String
 from app.agents.models import Agent
 from app.trust_scoring.models import TrustProfile
 from app.rankings.schemas import RankedAgent, RankingResponse
+from app.discovery.service import ensure_fresh_cache
 
 
 def get_ranked_agents(
@@ -16,6 +17,9 @@ def get_ranked_agents(
     limit: int = 10,
     offset: int = 0
 ) -> RankingResponse:
+    # Ensure the CROO registry cache is fresh before querying
+    ensure_fresh_cache(db)
+    
     query = select(Agent, TrustProfile).outerjoin(
         TrustProfile, Agent.id == TrustProfile.agent_id
     ).where(Agent.is_active == True)
