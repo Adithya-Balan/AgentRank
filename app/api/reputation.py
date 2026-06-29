@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks
 from sqlalchemy.orm import Session
 from sqlalchemy.exc import IntegrityError
 
@@ -16,10 +16,11 @@ router = APIRouter()
 )
 def create_interaction(
     payload: AgentInteractionCreate,
+    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db),
 ):
     try:
-        return service.log_interaction(db, payload)
+        return service.log_interaction(db, payload, background_tasks)
     except IntegrityError:
         raise HTTPException(status_code=400, detail="Invalid source or target agent ID")
 

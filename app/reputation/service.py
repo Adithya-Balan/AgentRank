@@ -1,3 +1,4 @@
+from fastapi import BackgroundTasks
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func, cast, Integer
 
@@ -6,7 +7,17 @@ from app.reputation.models import AgentInteraction
 from app.reputation.schemas import AgentInteractionCreate, ReputationGraph, ReputationGraphEdge
 
 
-def log_interaction(db: Session, payload: AgentInteractionCreate) -> AgentInteraction:
+def _probabilistic_eval_task(agent_id: int):
+    # This acts as our hackathon-optimized deep audit worker (replaces Celery).
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"Running background probabilistic evaluation audit for Agent {agent_id}")
+    # In reality, this would hit L2/L3 evaluators.
+    import time
+    time.sleep(1) # Simulate audit
+    logger.info(f"Finished audit for Agent {agent_id}")
+
+def log_interaction(db: Session, payload: AgentInteractionCreate, background_tasks: BackgroundTasks = None) -> AgentInteraction:
     interaction = AgentInteraction(**payload.model_dump())
     db.add(interaction)
     
@@ -30,6 +41,8 @@ def log_interaction(db: Session, payload: AgentInteractionCreate) -> AgentIntera
         probability = min(max_sigma / 100.0, 1.0)
         if random.random() < probability:
             audit_triggered = True
+            if background_tasks:
+                background_tasks.add_task(_probabilistic_eval_task, payload.target_agent_id)
             
     db.commit()
     db.refresh(interaction)
