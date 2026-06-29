@@ -8,9 +8,8 @@ router = APIRouter()
 @router.post("/run", status_code=status.HTTP_200_OK)
 def run_agent_discovery(db: Session = Depends(get_db)):
     """
-    Trigger the hybrid agent discovery pipeline.
-    Crawls registered adapters (MCP, CrewAI, LangChain, etc.) to discover
-    new autonomous agents dynamically on the internet, solving the 
-    universal opt-in registration problem.
+    Trigger the CROO-native agent discovery pipeline.
+    Scrapes the official CROO Agent Store to discover new CAP-compatible 
+    autonomous agents, syncing metadata into the PostgreSQL cache.
     """
     return service.run_discovery_cycle(db)

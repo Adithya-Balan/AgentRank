@@ -9,6 +9,7 @@ from app.evaluations.schema_sync import sync_benchmark_schema
 from app.validations.schema_sync import sync_validation_schema
 from app.trust_scoring.schema_sync import sync_trust_scoring_schema
 from app.reputation.schema_sync import sync_reputation_schema
+from app.discovery.schema_sync import sync_discovery_schema
 
 
 @asynccontextmanager
@@ -18,6 +19,7 @@ async def lifespan(app: FastAPI):
     sync_validation_schema(engine)
     sync_trust_scoring_schema(engine)
     sync_reputation_schema(engine)
+    sync_discovery_schema(engine)
     yield
 
 

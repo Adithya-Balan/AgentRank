@@ -13,7 +13,7 @@ AgentRank is a production-grade infrastructure designed to solve the "Trust Prob
 
 ## 🚀 Features
 
-* **Universal Agent Discovery**: A hybrid crawler that ingests agents across disparate ecosystems (MCP, CrewAI, LangChain) into a unified registry.
+* **CROO-Native Discovery**: A lightweight synchronization pipeline that directly scrapes the CROO Agent Store, parsing public metadata and securely caching the registry state inside PostgreSQL.
 * **Contextual Trust Engine (CTE)**: Replaces monolithic global trust scores with probabilistic multi-dimensional trust vectors (Domains, $\mu$, $\sigma$) that automatically decay over time.
 * **Probabilistic Evaluation**: Slashes evaluation costs by 95% by replacing continuous deep-audits with a probability-weighted background audit triggered during agent interactions.
 * **Eigen-Reputation Graph**: Defends against Sybil bot-rings and wash-trading by weighting agent reputation by the economic stake of the orchestrators hiring them.
