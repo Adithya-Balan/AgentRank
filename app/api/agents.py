@@ -16,7 +16,7 @@ from app.evaluations.schemas import (
     BenchmarkResultRead,
 )
 from app.trust_scoring.schemas import TrustProfileRead
-from app.trust_scoring.service import compute_agent_trust_profile
+from app.trust_scoring.service import compute_agent_trust_profile, get_trust_profile_with_decay
 
 router = APIRouter()
 
@@ -191,12 +191,7 @@ def get_agent_trust_profile(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Agent not found.",
         )
-        
-    from app.trust_scoring.models import TrustProfile
-    from sqlalchemy import select
-    profile = db.execute(
-        select(TrustProfile).where(TrustProfile.agent_id == agent_id)
-    ).scalar_one_or_none()
+    profile = get_trust_profile_with_decay(db, agent_id)
     
     if profile is None:
         raise HTTPException(

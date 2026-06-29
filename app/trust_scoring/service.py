@@ -1,10 +1,11 @@
+from datetime import datetime, UTC
 from sqlalchemy.orm import Session
 from sqlalchemy import select, func
 
 from app.agents.models import Agent
 from app.evaluations.models import BenchmarkResult
 from app.validations.models import ValidationReport
-from app.trust_scoring.models import TrustProfile
+from app.trust_scoring.models import TrustProfile, DomainTrust
 from app.evaluations.service import HEALTH_SCORE
 
 
@@ -105,6 +106,59 @@ def compute_agent_trust_profile(db: Session, agent_id: int) -> TrustProfile:
     # Update Agent trust score
     agent.trust_score = overall_trust_score
     
+    # Update DomainTrust based on agent capabilities
+    if agent.capabilities:
+        for capability in agent.capabilities:
+            domain_trust = db.execute(
+                select(DomainTrust).where(DomainTrust.agent_id == agent_id, DomainTrust.domain == capability)
+            ).scalar_one_or_none()
+            
+            if not domain_trust:
+                domain_trust = DomainTrust(agent_id=agent_id, domain=capability)
+                db.add(domain_trust)
+            
+            # Reset sigma (uncertainty) on fresh evaluation, mu tracks overall score for simplicity
+            domain_trust.mu = overall_trust_score
+            domain_trust.sigma = 5.0 # Low uncertainty after a fresh evaluation
+            domain_trust.last_evaluated_at = datetime.now(UTC)
+
     db.commit()
     db.refresh(profile)
+    return profile
+
+
+def get_trust_profile_with_decay(db: Session, agent_id: int):
+    profile = db.execute(
+        select(TrustProfile).where(TrustProfile.agent_id == agent_id)
+    ).scalar_one_or_none()
+    
+    if not profile:
+        return None
+        
+    domain_trusts = db.execute(
+        select(DomainTrust).where(DomainTrust.agent_id == agent_id)
+    ).scalars().all()
+    
+    # Apply Trust Decay: Variance (sigma) increases linearly over time
+    DECAY_RATE_PER_HOUR = 0.5 
+    now = datetime.now(UTC)
+    
+    for dt in domain_trusts:
+        # Time since last evaluation in hours
+        # Make sure dt.last_evaluated_at is aware
+        last_eval = dt.last_evaluated_at
+        if last_eval.tzinfo is None:
+            last_eval = last_eval.replace(tzinfo=UTC)
+            
+        hours_passed = (now - last_eval).total_seconds() / 3600.0
+        # Decay sigma (uncertainty increases)
+        dt.sigma = min(100.0, dt.sigma + (hours_passed * DECAY_RATE_PER_HOUR))
+    
+    db.commit()
+    db.refresh(profile)
+    
+    # Convert to dict/schema to include domain_trusts
+    # Fast approach: set it dynamically
+    setattr(profile, "domain_trusts", domain_trusts)
+    
     return profile

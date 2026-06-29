@@ -33,3 +33,4 @@ class ReputationGraph(BaseModel):
     outbound_dependencies: list[ReputationGraphEdge]
     inbound_dependents: list[ReputationGraphEdge]
     network_reliability_score: float
+    eigen_reputation_score: float = 0.0

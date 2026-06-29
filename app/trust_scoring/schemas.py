@@ -1,6 +1,14 @@
 from datetime import datetime
 from pydantic import BaseModel
 
+class DomainTrustRead(BaseModel):
+    domain: str
+    mu: float
+    sigma: float
+    last_evaluated_at: datetime
+    
+    model_config = {"from_attributes": True}
+
 class TrustProfileRead(BaseModel):
     id: int
     agent_id: int
@@ -13,5 +21,6 @@ class TrustProfileRead(BaseModel):
     consensus_alignment_score: float
     overall_trust_score: float
     updated_at: datetime
+    domain_trusts: list[DomainTrustRead] = []
 
     model_config = {"from_attributes": True}

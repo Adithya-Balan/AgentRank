@@ -23,3 +23,4 @@ class Agent(Base):
     last_error = Column(String)
     consecutive_failures = Column(Integer, default=0)
     trust_score = Column(Float, default=0.0)
+    staked_tokens = Column(Float, default=0.0)

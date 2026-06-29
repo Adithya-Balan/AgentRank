@@ -14,7 +14,7 @@ HEALTH_SCORE = {
     "unreachable": 0.0,
 }
 
-    TRUST_FORMULA = "0.80 * average_benchmark_score + 0.20 * health_score"
+TRUST_FORMULA = "0.80 * average_benchmark_score + 0.20 * health_score"
 
 
 def list_benchmark_results(

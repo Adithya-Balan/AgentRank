@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from app.agents.schema_sync import sync_agent_registry_schema
-from app.api import agents, validations, reputation, rankings, marketplace
+from app.api import agents, validations, reputation, rankings, marketplace, discovery
 from app.db.database import engine
 from app.evaluations.schema_sync import sync_benchmark_schema
 from app.validations.schema_sync import sync_validation_schema
@@ -56,4 +56,10 @@ app.include_router(
     marketplace.router,
     prefix="/marketplace",
     tags=["Marketplace"],
+)
+
+app.include_router(
+    discovery.router,
+    prefix="/discovery",
+    tags=["Discovery"],
 )

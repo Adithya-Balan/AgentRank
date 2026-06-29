@@ -13,6 +13,7 @@ class AgentBase(BaseModel):
     pricing_model: str | None = Field(default="free", max_length=80)
     price_per_call: float = Field(default=0.0, ge=0)
     capabilities: list[str] = Field(default_factory=list)
+    staked_tokens: float = Field(default=0.0, ge=0)
 
 
 class AgentCreate(AgentBase):
@@ -36,6 +37,7 @@ class AgentUpdate(BaseModel):
     last_error: str | None = Field(default=None, max_length=500)
     consecutive_failures: int | None = Field(default=None, ge=0)
     trust_score: float | None = Field(default=None, ge=0, le=100)
+    staked_tokens: float | None = Field(default=None, ge=0)
 
 
 class AgentRead(AgentBase):

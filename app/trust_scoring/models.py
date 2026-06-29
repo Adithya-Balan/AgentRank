@@ -1,6 +1,6 @@
 from datetime import UTC, datetime
 
-from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
@@ -26,6 +26,24 @@ class TrustProfile(Base):
         DateTime(timezone=True),
         default=lambda: datetime.now(UTC),
         onupdate=lambda: datetime.now(UTC),
+        nullable=False,
+    )
+
+    agent = relationship("Agent")
+
+class DomainTrust(Base):
+    __tablename__ = "domain_trusts"
+
+    id = Column(Integer, primary_key=True, index=True)
+    agent_id = Column(Integer, ForeignKey("agents.id"), nullable=False, index=True)
+    domain = Column(String, nullable=False, index=True)
+    
+    mu = Column(Float, nullable=False, default=50.0)
+    sigma = Column(Float, nullable=False, default=20.0)
+    
+    last_evaluated_at = Column(
+        DateTime(timezone=True),
+        default=lambda: datetime.now(UTC),
         nullable=False,
     )
 
