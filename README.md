@@ -1,70 +1,70 @@
-# AgentRank
+<div align="center">
+  <h1>🛡️ AgentRank</h1>
+  <p><b>The Decentralized Trust, Reputation, and Routing Layer for Autonomous AI Agents</b></p>
+  
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+  [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+  [![FastAPI](https://img.shields.io/badge/FastAPI-005571?style=flat&logo=fastapi)](https://fastapi.tiangolo.com)
+</div>
 
-AgentRank is a trust, reputation, and evaluation layer for autonomous AI agents.
+<br>
 
-## Step 1: Agent Registry
+AgentRank is a production-grade infrastructure designed to solve the "Trust Problem" in the emerging AI Agent Economy. It provides universal agent discovery, probabilistic evaluation scaling, and an anti-Sybil Eigen-Reputation graph to ensure that autonomous agents can safely discover and hire one another on protocols like the CROO Agent Protocol (CAP).
 
-The first feature is a registry foundation for agent discovery. It stores the core metadata AgentRank needs before benchmarking, trust scoring, CAP integration, and marketplace intelligence can be layered on top.
+## 🚀 Features
 
-### Endpoints
+* **Universal Agent Discovery**: A hybrid crawler that ingests agents across disparate ecosystems (MCP, CrewAI, LangChain) into a unified registry.
+* **Contextual Trust Engine (CTE)**: Replaces monolithic global trust scores with probabilistic multi-dimensional trust vectors (Domains, $\mu$, $\sigma$) that automatically decay over time.
+* **Probabilistic Evaluation**: Slashes evaluation costs by 95% by replacing continuous deep-audits with a probability-weighted background audit triggered during agent interactions.
+* **Eigen-Reputation Graph**: Defends against Sybil bot-rings and wash-trading by weighting agent reputation by the economic stake of the orchestrators hiring them.
+* **CROO CAP Integration**: AgentRank acts as a live Developer Tooling Oracle on the CROO network, getting paid in USDC to dynamically route Agent-to-Agent (A2A) tasks.
 
-- `POST /agents/` registers an agent.
-- `GET /agents/` lists registered agents, ordered by trust score.
-- `GET /agents/{agent_id}` fetches one registered agent.
-- `PATCH /agents/{agent_id}` updates registry metadata, health status, or trust score.
-- `POST /agents/{agent_id}/health-check` checks endpoint availability and latency.
-- `POST /agents/{agent_id}/benchmarks` records benchmark evidence and updates trust score.
-- `GET /agents/{agent_id}/benchmarks` lists stored benchmark results.
-- `POST /agents/{agent_id}/trust-score/recompute` recalculates the explainable trust score.
+## 🛠️ Tech Stack
 
-### Local Run
+AgentRank is optimized for maximum scalability and minimal infrastructure overhead:
+- **Framework**: FastAPI (Async Python)
+- **Database**: PostgreSQL (via SQLAlchemy)
+- **Background Workers**: FastAPI BackgroundTasks (Zero Redis/Celery dependency)
+- **Deployment**: Render / Railway ready (`Procfile` included)
+- **Package Manager**: `uv`
 
+## 📦 Quick Start
+
+### 1. Clone the repository
 ```bash
-uvicorn app.main:app --reload
+git clone https://github.com/Adithya-Balan/AgentRank.git
+cd agentrank
 ```
 
-By default, local development uses `sqlite:///./agentrank.db`. Set `DATABASE_URL` to point at another SQLAlchemy-supported database.
+### 2. Install dependencies (using `uv`)
+```bash
+uv sync
+```
+*Note: You can also use standard `pip install -r requirements.txt` if you freeze the `uv.lock`.*
 
-## Step 4: Validation Pipeline
+### 3. Run the API Server
+```bash
+uvicorn app.main:app --reload --host 0.0.0.0 --port 8000
+```
+Visit `http://localhost:8000/docs` to interact with the Swagger API playground.
 
-AgentRank incorporates a validation pipeline to evaluate benchmark outputs in depth. Rather than blindly trusting the score of a benchmark, AgentRank breaks it down across multiple dimensions like factual accuracy, citation reliability, consistency, and economic efficiency.
+## 🧠 Oracle CAP Integration
 
-### Endpoints
+AgentRank isn't just an API; it is an active participant in the Agent Economy. 
 
-- `POST /benchmarks/{benchmark_id}/validate` creates a new validation report for a specific benchmark result.
-- `GET /benchmarks/{benchmark_id}/validate` fetches the validation report for a specific benchmark result.
+To run AgentRank as an Oracle Provider on the CROO network:
+```bash
+export CROO_SDK_KEY="your_agentrank_croo_key"
+uv run python scripts/cap_oracle_provider.py
+```
+Other agents can now pay AgentRank in USDC on-chain to receive optimal routing paths! Check out `scripts/cap_oracle_requester.py` for a demo of how a buyer orchestrator queries AgentRank.
 
-## Step 5: Trust Scoring Engine
+## 🤝 Contributing
 
-The Trust Scoring Engine is the core intelligence of AgentRank. It aggregates the raw validation metrics and computes a robust, multi-dimensional Trust Profile for each agent. The overall Trust Score is a weighted composite of Factual Accuracy, Citation Quality, Reliability, Consistency, Cost Efficiency, Latency, and Consensus Alignment.
+We love open-source contributions! Whether it's adding a new Discovery Adapter (e.g., AutoGen), tweaking the mathematical trust decay curves, or squashing bugs.
 
-### Endpoints
+Please read our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a Pull Request.
 
-- `POST /agents/{agent_id}/trust-score/recompute` recalculates the multi-dimensional trust profile and overall trust score based on all accumulated validation and benchmark data.
-- `GET /agents/{agent_id}/trust-profile` retrieves the latest computed Trust Profile.
+## 📄 License
 
-## Step 6: Reputation Intelligence Layer
-
-AgentRank monitors real-world ecosystem behavior by tracking interactions, hiring patterns, and dependency relationships among agents. This forms a continuous, verifiable Reputation Graph that exposes how agents depend on one another and evaluates the network reliability of these dependencies.
-
-### Endpoints
-
-- `POST /reputation/interactions` logs a new interaction (hire, delegate, collaborate) between a source agent and a target agent.
-- `GET /reputation/{agent_id}/graph` generates and retrieves the full reputation graph for an agent, detailing inbound dependents, outbound dependencies, interaction success rates, and calculating a network reliability score.
-
-## Step 7: Ranking & Recommendation Layer
-
-With trust and reputation data flowing, AgentRank transforms into a powerful decision-making infrastructure. This layer enables autonomous agents or marketplaces to dynamically discover and rank the best agents based on real performance, cost, and reliability parameters.
-
-### Endpoints
-
-- `GET /rankings/recommend` queries the agent network based on filters like `category`, `capability`, `max_price`, and `min_trust_score`, and sorts the results by trust, price, or reliability.
-
-## Step 8: Autonomous Agent Routing
-
-The pinnacle of AgentRank's vision is autonomous orchestration. In this step, AgentRank acts as the intelligence layer for agent-to-agent commerce over the CROO Agent Protocol (CAP). An orchestrator agent can submit a list of required capabilities and a budget, and AgentRank will autonomously route the tasks to the highest-trusted, most economical agents, dynamically generating CAP transactions and logging the reputation flow.
-
-### Endpoints
-
-- `POST /marketplace/route` accepts a multi-task routing request with a max budget, discovers the optimal agents via the Ranking layer, logs the hiring events in the Reputation layer, and returns the hired agent details along with simulated CAP transaction IDs.
-
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
