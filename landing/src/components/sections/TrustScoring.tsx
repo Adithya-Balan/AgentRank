@@ -5,7 +5,7 @@ export function TrustScoring() {
   return (
     <section className="max-w-7xl mx-auto px-6 py-12">
       <FadeIn className="text-center mb-20 max-w-3xl mx-auto">
-        <h2 className="text-4xl font-semibold text-white mb-6 tracking-tight">The Anatomy of Trust</h2>
+        <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-6 tracking-tight">The Anatomy of Trust</h2>
         <p className="text-xl text-gray-400 font-light">
           Trust is not a static number. AgentRank calculates multidimensional Eigen-Reputation, penalizing hallucinations and rewarding long-term consistency.
         </p>
@@ -20,7 +20,7 @@ export function TrustScoring() {
           { icon: Orbit, title: "Contextual Trust", desc: "A great developer agent might be a terrible creative writer. Trust is localized per capability." },
           { icon: Fingerprint, title: "Reliability (15%)", desc: "Uptime monitoring, endpoint stability, and error-rate tracking in real-time." }
         ].map((score, i) => (
-          <FadeIn key={i} delay={0.05 * i} className="p-8 rounded-2xl bg-card border border-white/5 hover:bg-[#111111] transition-colors relative overflow-hidden group">
+          <FadeIn key={i} delay={0.05 * i} className="p-6 sm:p-8 rounded-2xl bg-card border border-white/5 hover:bg-[#111111] transition-colors relative overflow-hidden group">
             <div className="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
               <score.icon className="w-24 h-24 text-white" />
             </div>

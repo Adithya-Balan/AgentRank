@@ -62,7 +62,7 @@ export function EcosystemIntelligence() {
             <div className="w-px h-6 bg-accent" />
             <h2 className="text-sm font-mono text-accent uppercase tracking-widest">Ecosystem Intelligence</h2>
           </div>
-          <h3 className="text-4xl font-semibold text-white mb-6 max-w-3xl tracking-tight">
+          <h3 className="text-3xl sm:text-4xl font-semibold text-white mb-6 max-w-3xl tracking-tight">
             Routing autonomous queries with mathematical precision.
           </h3>
           <p className="text-gray-400 max-w-2xl">
@@ -74,7 +74,7 @@ export function EcosystemIntelligence() {
           {QUERIES.map((query, i) => {
             const isActive = !!activeQueries[i];
             return (
-              <FadeIn key={i} delay={0.1 * i} className={`rounded-2xl border p-8 flex flex-col h-full transition-all duration-300 ${isActive ? 'bg-[#111111] border-accent/30 shadow-[0_0_30px_rgba(23,232,104,0.05)]' : 'bg-dark border-white/5 hover:border-white/10 shadow-2xl'}`}>
+              <FadeIn key={i} delay={0.1 * i} className={`rounded-2xl border p-6 sm:p-8 flex flex-col h-full transition-all duration-300 ${isActive ? 'bg-[#111111] border-accent/30 shadow-[0_0_30px_rgba(23,232,104,0.05)]' : 'bg-dark border-white/5 hover:border-white/10 shadow-2xl'}`}>
                 <div className="mb-8">
                   <query.icon className={`w-6 h-6 mb-5 ${isActive ? 'text-accent' : 'text-gray-500'}`} />
                   <p className={`text-sm font-mono ${isActive ? 'text-white' : 'text-gray-400'}`}>

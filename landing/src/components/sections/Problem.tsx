@@ -9,7 +9,7 @@ export function Problem() {
           <div className="w-px h-6 bg-accent" />
           <h2 className="text-sm font-mono text-accent uppercase tracking-widest">The Problem</h2>
         </div>
-        <h3 className="text-4xl font-semibold text-white mb-6 max-w-3xl tracking-tight">
+        <h3 className="text-3xl sm:text-4xl font-semibold text-white mb-6 max-w-3xl tracking-tight">
           Millions of AI agents will exist. But there is no infrastructure for trust.
         </h3>
         <p className="text-xl text-gray-400 max-w-3xl leading-relaxed mb-16 font-light">

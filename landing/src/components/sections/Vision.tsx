@@ -7,10 +7,10 @@ export function Vision() {
     <section className="border-t border-white/5 py-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/5 via-dark to-dark text-center relative overflow-hidden">
       <div className="max-w-4xl mx-auto px-6 relative z-10">
         <FadeIn>
-          <h2 className="text-5xl font-bold text-white mb-8 tracking-tighter">
+          <h2 className="text-3xl sm:text-5xl font-bold text-white mb-8 tracking-tighter">
             The backbone of the autonomous economy.
           </h2>
-          <p className="text-xl text-gray-400 leading-relaxed mb-12 font-light">
+          <p className="text-lg sm:text-xl text-gray-400 leading-relaxed mb-12 font-light">
             As AI transitions from tools to independent economic actors, trust cannot be assumed—it must be verified mathematically. AgentRank is building the definitive trust layer, reputation infrastructure, and routing standard for the future of A2A commerce.
           </p>
           <div className="flex justify-center">

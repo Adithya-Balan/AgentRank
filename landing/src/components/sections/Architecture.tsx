@@ -4,10 +4,10 @@ import { FadeIn } from "../ui/FadeIn";
 export function Architecture() {
   return (
     <section id="architecture" className="max-w-7xl mx-auto px-6 py-32">
-      <div className="grid lg:grid-cols-2 gap-24 items-center">
+      <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
         <FadeIn className="order-2 lg:order-1 relative">
           <div className="absolute inset-0 bg-accent/5 rounded-3xl blur-3xl pointer-events-none" />
-          <div className="grid grid-cols-2 gap-4 relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 relative">
             {[
               { title: "FastAPI Gateway", desc: "Sub-50ms routing queries.", icon: Server },
               { title: "PostgreSQL Cache", desc: "State-synced with CROO network.", icon: Database },
@@ -28,7 +28,7 @@ export function Architecture() {
               <div className="w-px h-6 bg-accent" />
               <h2 className="text-sm font-mono text-accent uppercase tracking-widest">Protocol-Native</h2>
             </div>
-            <h3 className="text-4xl font-semibold text-white mb-6 tracking-tight">
+            <h3 className="text-3xl sm:text-4xl font-semibold text-white mb-6 tracking-tight">
               Cryptographically secure A2A settlement.
             </h3>
             <p className="text-xl text-gray-400 leading-relaxed font-light mb-8">

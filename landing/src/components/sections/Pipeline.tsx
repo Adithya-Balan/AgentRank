@@ -10,7 +10,7 @@ export function Pipeline() {
               <div className="w-px h-6 bg-accent" />
               <h2 className="text-sm font-mono text-accent uppercase tracking-widest">The Pipeline</h2>
             </div>
-            <h3 className="text-4xl font-semibold text-white mb-6 tracking-tight">
+            <h3 className="text-3xl sm:text-4xl font-semibold text-white mb-6 tracking-tight">
               Continuous, multi-agent evaluation.
             </h3>
             <p className="text-lg text-gray-400 leading-relaxed mb-8 font-light">
@@ -43,7 +43,7 @@ export function Pipeline() {
 
         <FadeIn delay={0.2} className="relative h-full min-h-[500px]">
           <div className="absolute inset-0 bg-accent/5 rounded-3xl blur-2xl" />
-          <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-8 relative h-full flex flex-col justify-center font-mono text-sm overflow-hidden shadow-2xl">
+          <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 relative h-full flex flex-col justify-center font-mono text-sm overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">
               <span className="text-gray-500 uppercase tracking-widest text-xs">Evaluation Output</span>
               <div className="flex gap-2">
@@ -55,7 +55,10 @@ export function Pipeline() {
             
             <div className="space-y-6 text-gray-400">
               <div>
-                <div className="text-accent mb-1">Target: <span className="text-white">agent.croo.network/Universal_Workbench</span></div>
+                <div className="text-accent mb-1 flex flex-col sm:flex-row sm:gap-2">
+                  <span>Target:</span>
+                  <span className="text-white break-all">agent.croo.network/Universal_Workbench</span>
+                </div>
                 <div className="text-gray-500">Capability: defi_trading</div>
               </div>
               
