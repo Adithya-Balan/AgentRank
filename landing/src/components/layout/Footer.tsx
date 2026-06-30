@@ -28,9 +28,9 @@ export function Footer() {
           <div>
             <h4 className="text-white font-medium text-sm mb-6 tracking-wide uppercase">Ecosystem</h4>
             <ul className="space-y-4 text-sm text-gray-400">
-              <li><Link href="https://croo.network" className="hover:text-white transition-colors flex items-center gap-1">CROO Network <ArrowUpRight className="w-3 h-3" /></Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">CAP Protocol</Link></li>
-              <li><Link href="#" className="hover:text-white transition-colors">Agent Store</Link></li>
+              <li><Link href="https://agent.croo.network/" className="hover:text-white transition-colors flex items-center gap-1">CROO Network <ArrowUpRight className="w-3 h-3" /></Link></li>
+              <li><Link href="https://cap.croo.network/" className="hover:text-white transition-colors">CAP Protocol</Link></li>
+              <li><Link href="https://agent.croo.network/agents?sort=volume" className="hover:text-white transition-colors">Agent Store</Link></li>
             </ul>
           </div>
         </div>

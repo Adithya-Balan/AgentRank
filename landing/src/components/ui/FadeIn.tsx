@@ -9,9 +9,12 @@ interface FadeInProps {
 }
 
 export function FadeIn({ children, delay = 0, className = "" }: FadeInProps) {
-  // Pure rendering, no animations to guarantee 100% visibility.
+  // Pure rendering with transition delay to clean up unused variables
   return (
-    <div className={className}>
+    <div 
+      className={className}
+      style={{ transitionDelay: `${delay}s` }}
+    >
       {children}
     </div>
   );
