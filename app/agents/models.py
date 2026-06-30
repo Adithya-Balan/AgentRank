@@ -12,7 +12,7 @@ class Agent(Base):
     category = Column(String, index=True)
     framework = Column(String)
     endpoint = Column(String, nullable=False, unique=True, index=True)
-    wallet_address = Column(String, unique=True, index=True)
+    wallet_address = Column(String, index=True)
     pricing_model = Column(String, default="free")
     price_per_call = Column(Float, default=0.0)
     capabilities = Column(JSON, default=list)

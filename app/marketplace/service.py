@@ -6,13 +6,10 @@ from app.rankings.service import get_ranked_agents
 from app.reputation.service import log_interaction
 from app.reputation.schemas import AgentInteractionCreate
 from app.marketplace.schemas import RoutingRequest, RoutingResponse, HiredAgentDetails
-from app.discovery.service import ensure_fresh_cache
 
 
 def execute_autonomous_routing(db: Session, request: RoutingRequest) -> RoutingResponse:
-    # Ensure CROO registry is fresh before routing decisions
-    ensure_fresh_cache(db)
-    
+    # Cache freshness is handled by get_ranked_agents() downstream
     budget_remaining = request.max_budget
     total_cost = 0.0
     hired_agents = []

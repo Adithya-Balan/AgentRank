@@ -8,14 +8,13 @@ from app.reputation.schemas import AgentInteractionCreate, ReputationGraph, Repu
 
 
 def _probabilistic_eval_task(agent_id: int):
-    # This acts as our hackathon-optimized deep audit worker (replaces Celery).
+    """Background audit task triggered probabilistically based on trust uncertainty (sigma)."""
     import logging
     logger = logging.getLogger(__name__)
-    logger.info(f"Running background probabilistic evaluation audit for Agent {agent_id}")
-    # In reality, this would hit L2/L3 evaluators.
-    import time
-    time.sleep(1) # Simulate audit
-    logger.info(f"Finished audit for Agent {agent_id}")
+    logger.info(f"[AUDIT] Probabilistic evaluation triggered for Agent {agent_id}")
+    # In production, this would invoke L2/L3 evaluators and recompute trust scores.
+    # For the hackathon MVP, we log the event without blocking the thread pool.
+    logger.info(f"[AUDIT] Evaluation complete for Agent {agent_id}")
 
 def log_interaction(db: Session, payload: AgentInteractionCreate, background_tasks: BackgroundTasks = None) -> AgentInteraction:
     interaction = AgentInteraction(**payload.model_dump())
