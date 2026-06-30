@@ -39,11 +39,20 @@ async def run_agentrank_provider():
         logger.info(f"Received Agent-to-Agent negotiation request: {e.negotiation_id}")
         async def _accept():
             try:
-                # Automatically accept for the hackathon (in prod, validate terms/prices)
+                # Fetch negotiation terms
+                neg = await client.get_negotiation(e.negotiation_id)
+                min_price = int(os.getenv("CROO_MIN_PRICE_MICRO_USDC", "10000")) # 0.01 USDC default
+                
+                # Hardened validation for production: don't accept free or underpriced work
+                if neg.fund_amount < min_price:
+                    logger.warning(f"Rejecting negotiation {e.negotiation_id}: Insufficient fund amount ({neg.fund_amount} < {min_price})")
+                    await client.reject_negotiation(e.negotiation_id, "Insufficient price offered")
+                    return
+                
                 await client.accept_negotiation(e.negotiation_id)
-                logger.info(f"Accepted negotiation {e.negotiation_id}")
+                logger.info(f"Accepted negotiation {e.negotiation_id} for {neg.fund_amount} micro-USDC")
             except Exception as err:
-                logger.error(f"Failed to accept negotiation: {err}")
+                logger.error(f"Failed to process negotiation: {err}")
         asyncio.create_task(_accept())
         
     try:
