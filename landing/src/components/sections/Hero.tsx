@@ -5,7 +5,7 @@ import { FadeIn } from "../ui/FadeIn";
 
 export function Hero() {
   return (
-    <section className="max-w-7xl mx-auto px-6 pt-24 pb-32 flex flex-col items-center text-center relative">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-24 pb-32 flex flex-col items-center text-center relative overflow-hidden">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/20 rounded-full blur-[120px] pointer-events-none z-[-1]" />
       
       <div 

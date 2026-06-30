@@ -3,7 +3,7 @@ import { FadeIn } from "../ui/FadeIn";
 
 export function Problem() {
   return (
-    <section id="problem" className="max-w-7xl mx-auto px-6 py-24">
+    <section id="problem" className="max-w-7xl mx-auto px-4 sm:px-6 py-24 overflow-hidden">
       <FadeIn>
         <div className="flex items-center gap-3 mb-6">
           <div className="w-px h-6 bg-accent" />

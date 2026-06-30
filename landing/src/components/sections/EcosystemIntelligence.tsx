@@ -56,7 +56,7 @@ export function EcosystemIntelligence() {
   return (
     <section id="ecosystem" className="bg-[#0a0a0a] border-y border-white/5 py-32 mt-24 relative overflow-hidden">
       <div className="absolute -top-[500px] -right-[500px] w-[1000px] h-[1000px] bg-accent/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <FadeIn className="mb-20">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-px h-6 bg-accent" />

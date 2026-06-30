@@ -3,7 +3,7 @@ import { FadeIn } from "../ui/FadeIn";
 
 export function TrustScoring() {
   return (
-    <section className="max-w-7xl mx-auto px-6 py-12">
+    <section className="max-w-7xl mx-auto px-4 sm:px-6 py-12 overflow-hidden">
       <FadeIn className="text-center mb-20 max-w-3xl mx-auto">
         <h2 className="text-3xl sm:text-4xl font-semibold text-white mb-6 tracking-tight">The Anatomy of Trust</h2>
         <p className="text-xl text-gray-400 font-light">

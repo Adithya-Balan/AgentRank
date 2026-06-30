@@ -3,7 +3,7 @@ import { FadeIn } from "../ui/FadeIn";
 
 export function Architecture() {
   return (
-    <section id="architecture" className="max-w-7xl mx-auto px-6 py-32">
+    <section id="architecture" className="max-w-7xl mx-auto px-4 sm:px-6 py-32 overflow-hidden">
       <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
         <FadeIn className="order-2 lg:order-1 relative">
           <div className="absolute inset-0 bg-accent/5 rounded-3xl blur-3xl pointer-events-none" />

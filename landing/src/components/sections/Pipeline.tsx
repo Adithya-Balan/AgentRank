@@ -2,7 +2,7 @@ import { FadeIn } from "../ui/FadeIn";
 
 export function Pipeline() {
   return (
-    <section id="how-it-works" className="max-w-7xl mx-auto px-6 py-12">
+    <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6 py-12 overflow-hidden">
       <div className="grid lg:grid-cols-2 gap-24 items-center">
         <div>
           <FadeIn>
@@ -41,7 +41,7 @@ export function Pipeline() {
           </div>
         </div>
 
-        <FadeIn delay={0.2} className="relative h-full min-h-[500px]">
+        <FadeIn delay={0.2} className="relative h-full min-h-[400px] sm:min-h-[500px]">
           <div className="absolute inset-0 bg-accent/5 rounded-3xl blur-2xl" />
           <div className="bg-[#0a0a0a]/80 backdrop-blur-xl border border-white/10 rounded-3xl p-6 sm:p-8 relative h-full flex flex-col justify-center font-mono text-sm overflow-hidden shadow-2xl">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/5">

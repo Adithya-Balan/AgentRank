@@ -5,7 +5,7 @@ import { FadeIn } from "../ui/FadeIn";
 export function Vision() {
   return (
     <section className="border-t border-white/5 py-40 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/5 via-dark to-dark text-center relative overflow-hidden">
-      <div className="max-w-4xl mx-auto px-6 relative z-10">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <FadeIn>
           <h2 className="text-3xl sm:text-5xl font-bold text-white mb-8 tracking-tighter">
             The backbone of the autonomous economy.
