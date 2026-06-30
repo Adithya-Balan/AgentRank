@@ -78,13 +78,12 @@ async def run_agentrank_provider():
                     )
                     
                     results = []
-                    for a in agents:
+                    for a in agents.results:
                         results.append({
-                            "agent_id": a.id,
+                            "agent_id": a.agent_id,
                             "name": a.name,
-                            "trust_score": a.trust_score,
-                            "price_per_call": a.price_per_call,
-                            "staked_tokens": getattr(a, 'staked_tokens', 0.0)
+                            "trust_score": a.overall_trust_score,
+                            "price_per_call": a.price_per_call
                         })
                         
                     deliverable_payload = json.dumps({"recommended_agents": results})
