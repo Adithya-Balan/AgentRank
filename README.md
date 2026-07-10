@@ -151,39 +151,51 @@ AgentRank isn't just a Web2 API; it is fully integrated into Web3 via the **CROO
 * **Wash-Trading Defense:** Eigen-Reputation ensures that circular hiring loops among fake agents generate zero actionable reputation lift.
 * **Graceful Degradation:** If the CROO API goes offline, AgentRank safely falls back to its PostgreSQL cache, keeping the agent economy alive.
 
-## 10. Local Development & Deployment
+## 10. Hackathon Requirements & Setup
 
-### Prerequisites
-- Python 3.11+
-- PostgreSQL
-- `uv` Package Manager
+### 🛠️ Setup Instructions
+1. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/Adithya-Balan/AgentRank.git
+   cd agentrank
+   ```
+2. **Install Dependencies:**
+   Ensure you have Python 3.11+ and PostgreSQL running. We recommend using `uv`:
+   ```bash
+   uv pip install -r requirements.txt
+   ```
+3. **Configure Environment Variables (`.env`):**
+   ```env
+   DATABASE_URL=postgresql://user:password@localhost:5432/agentrank
+   CROO_SDK_KEY="croo_sk_your_key_here" # Your Agent's registered key on CROO
+   CROO_API_URL="https://api.croo.network"
+   CROO_MIN_PRICE_MICRO_USDC="10000" # $0.01 USDC
+   ```
+4. **Start the API Server:**
+   ```bash
+   uv run uvicorn app.main:app --reload
+   ```
+5. **Start the CAP Oracle Provider (Background Worker):**
+   Run this in a separate terminal to listen for A2A routing requests over CAP.
+   ```bash
+   uv run python scripts/cap_oracle_provider.py
+   ```
 
-### Environment Variables (`.env`)
-```env
-DATABASE_URL=postgresql://user:password@localhost:5432/agentrank
-CROO_SDK_KEY="croo_sk_your_key_here"
-CROO_BEARER_TOKEN="eyJhbG..." 
-```
+### 🧩 CROO SDK Methods Used
+AgentRank deeply integrates with the `croo-sdk` to act as an on-chain routing oracle. The following core methods and event listeners are implemented in `scripts/cap_oracle_provider.py`:
+- `AgentClient(config, SDK_KEY)`: Initializes the secure connection to the CROO network.
+- `client.connect_websocket()`: Opens a persistent WebSocket stream for real-time A2A events.
+- `client.get_negotiation(negotiation_id)`: Fetches A2A bid details to validate the offered USDC budget against our oracle price.
+- `client.reject_negotiation(negotiation_id, reason)`: Actively blocks underfunded/zero-value requests.
+- `client.accept_negotiation(negotiation_id)`: Secures the A2A handshake.
+- `client.get_order(order_id)`: Parses the incoming orchestrator prompt/requirements (e.g., requested capability).
+- `client.deliver_order(order_id, deliverable)`: Pushes the JSON trust intelligence payload back over CAP and triggers the smart contract to release the locked USDC escrow.
+- **Event Listeners:** `stream.on(EventType.NEGOTIATION_CREATED, ...)` and `stream.on(EventType.ORDER_PAID, ...)`
 
-### Local Development Workflow
-```bash
-# 1. Install dependencies
-uv pip install -r requirements.txt
-
-# 2. Start the API Server
-uv run uvicorn app.main:app --reload
-
-# 3. Start the CAP Oracle Provider (in a separate terminal)
-uv run python scripts/cap_oracle_provider.py
-```
-
-### Production Deployment (Render)
-1. Deploy a PostgreSQL instance.
-2. Deploy the FastAPI Web Service:
-   - Build: `pip install -r requirements.txt`
-   - Start: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
-3. **Crucial:** Deploy a **Background Worker** to run the CAP Oracle:
-   - Start: `python scripts/cap_oracle_provider.py`
+### 🔗 Integration Notes & A2A Composability
+- **USDC Escrow Security (Zero-Value Exploit Defense):** We strictly validate `neg.fund_amount` against our minimum threshold (`CROO_MIN_PRICE_MICRO_USDC`) before invoking `accept_negotiation()`. This defends the oracle from free-loading agents.
+- **Asynchronous Event-Driven Architecture:** The integration leverages Python's `asyncio` to handle concurrent CAP events without blocking the main event loop, allowing AgentRank to route hundreds of queries simultaneously.
+- **Graceful Degradation:** Web2 operations (the FastAPI web interface and discovery scraping) are completely isolated from Web3 operations (the CAP provider script). If the blockchain RPC experiences downtime, the internal PostgreSQL cache still seamlessly serves normal API queries.
 
 ## 11. Philosophy, Limitations & Future Vision
 
